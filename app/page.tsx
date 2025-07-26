@@ -7,11 +7,18 @@ import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 import SectionTitle from "@/components/sectionTitle";
+import { getPokemons } from "@/controllers/PokemonsController";
+import PokemonsTable from "@/components/PokemonsTable";
 
-export default function Home() {
+export default async function Home() {
+
+  const pokemonsList = await getPokemons({ offset: 0, limit: 10 });
+  
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <SectionTitle title="Next.js 13" />
+      <PokemonsTable pokemons={pokemonsList} />
+
       <div className="inline-block max-w-xl text-center justify-center">
         <span className={title()}>Make&nbsp;</span>
         <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
