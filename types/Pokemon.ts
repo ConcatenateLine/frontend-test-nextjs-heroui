@@ -1,6 +1,8 @@
 export default interface Pokemon {
   name: string;
   url: string;
+  image?: string;
+  actions?: string;
 }
 
 export interface Pokemons {
@@ -10,3 +12,18 @@ export interface Pokemons {
   results: Pokemon[];
 }
 
+
+export interface PokemonDetail {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  types: {
+    type: {
+      name: string;
+    }
+  }[];
+  sprites: {
+    front_default: string;
+  };
+}

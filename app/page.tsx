@@ -1,65 +1,20 @@
-import { Link } from "@heroui/link";
-import { Snippet } from "@heroui/snippet";
-import { Code } from "@heroui/code";
-import { button as buttonStyles } from "@heroui/theme";
-
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
 import SectionTitle from "@/components/sectionTitle";
 import { getPokemons } from "@/controllers/PokemonsController";
 import PokemonsTable from "@/components/PokemonsTable";
+import { Suspense } from "react";
+import PokemonsTableSkeleton from "@/components/pokemon/PokemonsTableSkeleton";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: { offset: number, limit: number } }) {
+  const { offset = 0, limit = 10 } = await searchParams;
+  const pokemonsList = getPokemons({ offset: offset, limit:limit });
 
-  const pokemonsList = await getPokemons({ offset: 0, limit: 10 });
-  
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <SectionTitle title="Next.js 13" />
-      <PokemonsTable pokemons={pokemonsList} />
-
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
-      </div>
-
-      <div className="flex gap-3">
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
+      <SectionTitle text="Next.js 13" />
+      <Suspense fallback={<PokemonsTableSkeleton rows={limit} />}>
+        <PokemonsTable pokemons={pokemonsList} currentPage={offset/limit} limit={limit} />
+      </Suspense>
     </section>
   );
 }
+
