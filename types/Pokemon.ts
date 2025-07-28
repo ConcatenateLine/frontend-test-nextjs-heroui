@@ -26,4 +26,5 @@ export interface PokemonDetail {
   sprites: {
     front_default: string;
   };
+  base_experience: number;
 }

@@ -3,6 +3,7 @@ import { getPokemons } from "@/controllers/PokemonsController";
 import PokemonsTable from "@/components/PokemonsTable";
 import { Suspense } from "react";
 import PokemonsTableSkeleton from "@/components/pokemon/PokemonsTableSkeleton";
+import PokemonSearch from "@/components/pokemon/PokemonSearch";
 
 export default async function Home({ searchParams }: { searchParams: { offset: number, limit: number } }) {
   const { offset = 0, limit = 10 } = await searchParams;
@@ -11,6 +12,7 @@ export default async function Home({ searchParams }: { searchParams: { offset: n
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <SectionTitle text="Next.js 13" />
+      <PokemonSearch />
       <Suspense fallback={<PokemonsTableSkeleton rows={limit} />}>
         <PokemonsTable pokemons={pokemonsList} currentPage={offset/limit} limit={limit} />
       </Suspense>
