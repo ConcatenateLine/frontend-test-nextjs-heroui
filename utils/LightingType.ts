@@ -1,4 +1,4 @@
-const lightingType: Record<string, string> = {
+const LightingType: Record<string, string> = {
   fire: 'from-orange-400 to-red-500',
   electric: 'from-yellow-300 to-yellow-500',
   water: 'from-blue-400 to-blue-600',
@@ -11,9 +11,15 @@ const lightingType: Record<string, string> = {
   fighting: 'from-red-800 to-orange-600',
   dark: 'from-gray-800 to-black',
   fairy: 'from-pink-300 to-fuchsia-400',
+  poison: "bg-purple-500",
+  ground: "bg-yellow-600",
+  flying: "bg-indigo-400",
+  bug: "bg-green-400",
+  steel: "bg-gray-500",
   // fallback
   default: 'from-indigo-400 to-purple-500',
+  normal: "bg-gray-400",
 };
 
-export default lightingType;
+export default LightingType;
 

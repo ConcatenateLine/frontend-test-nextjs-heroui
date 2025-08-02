@@ -6,11 +6,17 @@ const getPokemons = async ({ offset, limit }: { offset: number, limit: number })
   return data
 }
 
+const getAllPokemons = async (): Promise<Pokemons> => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=100000`)
+  const data = await res.json()
+  return data
+}
+
 const getPokemon = async (slug: string): Promise<PokemonDetail> => {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${slug}`)
   const data = await res.json()
   return data
 }
 
-export { getPokemons, getPokemon }
+export { getPokemons, getPokemon, getAllPokemons }
 
