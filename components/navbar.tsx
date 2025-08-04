@@ -23,7 +23,6 @@ import {
 import PokemonSearch from "./pokemon/PokemonSearch";
 
 export const Navbar = () => {
-
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">

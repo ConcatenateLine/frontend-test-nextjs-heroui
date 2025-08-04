@@ -9,8 +9,8 @@ import {
   Autocomplete,
   AutocompleteItem
 } from "@heroui/autocomplete";
-import { getAllPokemons } from '@/controllers/PokemonsController';
-import PokemonCard from './PokemonCard';
+import { getAllPokemons, getPokemonByName } from '@/controllers/PokemonsController';
+import PokemonSearchCard from './PokemonSearchCard';
 
 const PokemonSearch = () => {
   const [loading, setLoading] = useState(false);
@@ -37,9 +37,7 @@ const PokemonSearch = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
-      if (!res.ok) throw new Error('Not found');
-      const data = await res.json();
+      const data = await getPokemonByName(pokemonName);
       setPokemon(data);
     } catch {
       setPokemon(null);
@@ -113,11 +111,9 @@ const PokemonSearch = () => {
       <div className="absolute w-full m-1">
         <Skeleton isLoaded={!loading} className='rounded'>
           {pokemon && (
-            <PokemonCard
+            <PokemonSearchCard
+              ref={cardRef}
               pokemon={pokemon}
-              sx={{
-                ref: cardRef
-              }}
             />
           )}
         </Skeleton>

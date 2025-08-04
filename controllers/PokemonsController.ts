@@ -18,5 +18,12 @@ const getPokemon = async (slug: string): Promise<PokemonDetail> => {
   return data
 }
 
-export { getPokemons, getPokemon, getAllPokemons }
+const getPokemonByName = async (name: string): Promise<PokemonDetail> => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+  if (!res.ok) throw new Error('Not found');
+  const data = await res.json();
+  return data;
+}
+
+export { getPokemons, getPokemon, getAllPokemons, getPokemonByName }
 

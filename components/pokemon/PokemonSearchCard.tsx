@@ -4,41 +4,36 @@ import RarityType from "@/utils/RarityType";
 import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
 import { cn } from "@/utils/MergeClassNames"
 import LightingType from "@/utils/LightingType";
-import { Star, Zap } from "lucide-react"
+import { Star } from "lucide-react"
 import { forwardRef } from "react";
 import Link from "next/link";
 
 interface PokemonCardProps {
   pokemon: PokemonDetail;
-  onClick?: () => void;
   variant?: "standard" | "holographic" | "rare" | "shiny"
 }
 
-interface StatProps {
-  label: string;
-  value: string;
-}
-
-const Stat = ({ label, value }: StatProps) => {
-  return (
-    <div className="text-center">
-      <p className="font-medium text-xs text-muted">{label}</p>
-      <p className="font-display text-base">{value}</p>
-    </div>
-  )
-}
-
-const PokemonCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, onClick, variant = 'standard' }, ref) => {
+const PokemonSearchCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, variant = 'standard' }, ref) => {
   const totalStats = pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0)
   const rarity = getRarity(totalStats)
   const rarityType = RarityType[rarity]
+  const glowClass = LightingType[pokemon.types[0].type.name] || LightingType.default;
 
   return (
     <div ref={ref} className="flex justify-center mb-8">
       <Link href={`/pokemon/${pokemon.name}`}>
         <div className="relative">
           {/* Card Container */}
-          <div className="w-80 h-[28rem] bg-gradient-to-br from-yellow-200 via-yellow-100 to-yellow-50 rounded-2xl shadow-2xl border-8 border-yellow-400 relative overflow-hidden transform hover:scale-105 transition-all duration-300 hover:scale-105 hover:rotate-1">
+          <div
+            className={cn(
+              "w-64 h-80 rounded-2xl border-4 relative overflow-hidden shadow-2xl",
+              "bg-gradient-to-br transform hover:scale-105 transition-all duration-300",
+              rarityType.border,
+              rarityType.bg,
+              glowClass,
+              variant == 'shiny' && "animate-pulse",
+            )}
+          >
             {/* Holographic Effect Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent opacity-30 animate-pulse"></div>
 
@@ -73,7 +68,7 @@ const PokemonCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, onC
             </div>
 
             {/* Pokemon Image */}
-            <div className="relative z-10 flex justify-center mb-4">
+            <div className="relative z-10 flex justify-center">
               <div className="w-48 h-48 bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl border-4 border-white shadow-lg flex items-center justify-center overflow-hidden">
                 <img
                   src={pokemon.sprites.other["official-artwork"].front_default || pokemon.sprites.front_default}
@@ -82,37 +77,21 @@ const PokemonCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, onC
                 />
               </div>
             </div>
-            {/* Stats Section */}
-            <div className="relative z-10 px-4 pb-4">
-              <div className="bg-white/90 rounded-xl p-3 shadow-lg">
-                <h3 className="text-sm font-bold text-gray-700 mb-2 text-center">BASE STATS</h3>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {pokemon.stats.slice(0, 4).map((stat, index) => (
-                    <div key={index} className="flex justify-between items-center">
-                      <span className="font-medium text-gray-600 capitalize">
-                        {stat.stat.name === "special-attack"
-                          ? "Sp.Atk"
-                          : stat.stat.name === "special-defense"
-                            ? "Sp.Def"
-                            : stat.stat.name.charAt(0).toUpperCase() + stat.stat.name.slice(1)}
-                      </span>
-                      <span className="font-bold text-gray-800">{stat.base_stat}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
             {/* Card Footer */}
             <div className="absolute bottom-2 left-4 right-4 z-10">
               <div className="flex justify-between items-center text-xs text-gray-600">
                 <div className="flex justify-between items-center text-xs text-gray-600">
-                  <div className="bg-white/80 rounded px-2 py-1">
-                    <span className="font-medium">{pokemon.height / 10}m</span>
-                  </div>
-                  <div className="bg-white/80 rounded px-2 py-1">
-                    <span className="font-medium">{pokemon.weight / 10}kg</span>
-                  </div>
+                  {Array.from(
+                    {
+                      length: Math.min(
+                        5,
+                        Math.floor(pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0) / 100),
+                      ),
+                    },
+                    (_, i) => (
+                      <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
+                    ),
+                  )}
                 </div>
 
                 <div className="rounded px-2 py-1">
@@ -122,23 +101,7 @@ const PokemonCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, onC
                 </div>
               </div>
             </div>
-
-            {/* Rarity Stars */}
-            <div className="absolute top-2 left-2 z-20 flex">
-              {Array.from(
-                {
-                  length: Math.min(
-                    5,
-                    Math.floor(pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0) / 100),
-                  ),
-                },
-                (_, i) => (
-                  <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
-                ),
-              )}
-            </div>
           </div>
-
           {/* Card Shadow/Glow Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-purple-400/20 rounded-2xl blur-xl -z-10 transform scale-110"></div>
         </div>
@@ -146,5 +109,5 @@ const PokemonCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, onC
     </div>);
 });
 
-export default PokemonCard;
+export default PokemonSearchCard;
 
