@@ -37,4 +37,9 @@ export interface PokemonDetail {
   }>
   height: number
   weight: number
+  abilities: Array<{
+    ability: {
+      name: string
+    }
+  }>
 }

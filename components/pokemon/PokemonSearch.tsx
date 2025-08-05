@@ -14,8 +14,6 @@ import PokemonSearchCard from './PokemonSearchCard';
 
 const PokemonSearch = () => {
   const [loading, setLoading] = useState(false);
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
@@ -52,7 +50,6 @@ const PokemonSearch = () => {
 
   const handleClear = () => {
     setPokemon(null);
-    setSuggestionsOpen(false);
   };
 
   useEffect(() => {
@@ -97,7 +94,6 @@ const PokemonSearch = () => {
           if (value.length < 1) {
             handleClear();
           } else {
-            setSuggestionsOpen(true);
             handleSearch(value);
           }
         }}
