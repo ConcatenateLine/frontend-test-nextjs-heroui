@@ -12,10 +12,6 @@ export const siteConfig = {
       label: "Docs",
       href: "/docs",
     },
-    {
-      label: "Team",
-      href: "/team",
-    },
   ],
   navMenuItems: [
     {
@@ -25,10 +21,6 @@ export const siteConfig = {
     {
       label: "Docs",
       href: "/docs",
-    },
-    {
-      label: "Team",
-      href: "/team",
     },
   ],
   links: {

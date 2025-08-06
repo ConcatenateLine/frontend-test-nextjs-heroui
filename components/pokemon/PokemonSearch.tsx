@@ -110,6 +110,7 @@ const PokemonSearch = () => {
             <PokemonSearchCard
               ref={cardRef}
               pokemon={pokemon}
+              onClear={handleClear}
             />
           )}
         </Skeleton>

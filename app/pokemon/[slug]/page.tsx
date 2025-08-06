@@ -1,4 +1,5 @@
 import AnalysisSection from "@/components/Analysis/AnalysisSection";
+import EvolutionTreeSection from "@/components/EvolutionTree/EvolutionTreeSection";
 import PokemonCard from "@/components/pokemon/PokemonCard";
 import { getPokemon } from "@/controllers/PokemonsController";
 
@@ -6,14 +7,12 @@ const Page = async ({ params, }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params
   const pokemon = await getPokemon(slug);
 
-  return <div className="grid md:grid-cols-2 ">
-    <PokemonCard pokemon={pokemon} />
-    <div className="text-3xl">
+  return <div>
+    <div className="flex flex-col md:flex-row gap-8">
+      <PokemonCard pokemon={pokemon} />
       <AnalysisSection pokemon={pokemon} />
     </div>
-    <div className="text-3xl">
-      Evolution Tree
-    </div>
+    <EvolutionTreeSection pokemon={pokemon} />
   </div>
 }
 

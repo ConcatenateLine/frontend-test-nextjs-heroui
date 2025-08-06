@@ -13,19 +13,24 @@ import { getRarity } from "@/utils/PokemonCardOperations";
 
 interface PokemonCardProps {
   pokemon: PokemonDetail;
-  variant?: "standard" | "holographic" | "rare" | "shiny"
+  variant?: "standard" | "holographic" | "rare" | "shiny";
+  onClear?: () => void;
 }
 
-const PokemonSearchCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, variant = 'standard' }, ref) => {
+const PokemonSearchCard = forwardRef<HTMLDivElement, PokemonCardProps>(({ pokemon, variant = 'standard', onClear }, ref) => {
   const totalStats = pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0)
   const rarity = getRarity(totalStats)
   const rarityType = RarityType[rarity]
   const glowClass = LightingType[pokemon.types[0].type.name] || LightingType.default;
   const pokemonName = HyphenToSpace(pokemon.name);
 
+  const handleClear = () => {
+    onClear?.();
+  };
+
   return (
     <div ref={ref} className="flex justify-center mb-8">
-      <Link href={`/pokemon/${pokemon.name}`}>
+      <Link href={`/pokemon/${pokemon.name}`} onClick={handleClear}>
         <Card
           className={cn(
             "w-74 h-65 rounded-2xl border-4 relative overflow-hidden shadow-2xl",

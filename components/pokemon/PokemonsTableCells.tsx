@@ -22,9 +22,10 @@ const PokemonTableCells = ({ pokemon, columnKey }: PokemonTableCellsProps) => {
           isZoomed
           fallbackSrc="https://via.placeholder.com/300x200"
           alt="HeroUI Fruit Image with Zoom"
-          src="https://heroui.com/images/fruit-1.jpeg"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
           width={40}
           height={40}
+          aria-label={`${pokemon.name} sprite`}
         />
       );
     case "url":

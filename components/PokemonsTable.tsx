@@ -44,21 +44,22 @@ const PokemonsTable = ({ pokemons, currentPage = 0, limit = 10 }: PokemonsTableP
 
   return (
     <section className="flex flex-col w-full gap-4">
-      <Table aria-label="Pokemons table">
-        <TableHeader>
+      <div className="-translate-y-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl rounded-t-4xl md:p-8 border-2 border-blue-200 overflow-x-auto">
+      <Table aria-label="Pokemons table" className="bg-transparent">
+        <TableHeader className="bg-transparent">
           {
             columns.map((column) => (
               <TableColumn key={column.key}>{column.label}</TableColumn>
             ))
           }
         </TableHeader>
-        <TableBody>
+        <TableBody className="bg-transparent">
           {
             results.map((pokemon) => (
               <TableRow key={pokemon.name}>
                 {
                   columns.map((column) => (
-                    <TableCell key={column.key}>
+                    <TableCell key={column.key} className="bg-transparent">
                       {
                         PokemonTableCells({
                           pokemon,
@@ -73,6 +74,7 @@ const PokemonsTable = ({ pokemons, currentPage = 0, limit = 10 }: PokemonsTableP
           }
         </TableBody>
       </Table>
+      </div>
       <Pagination 
         total={Math.ceil(count/limit)} 
         page={currentPage + 1} 
